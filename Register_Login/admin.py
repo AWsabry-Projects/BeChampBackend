@@ -6,19 +6,12 @@ from django.db import models
 # Register your models here.
 
 
-
-
-
-
-
 class UserAdmin(admin.ModelAdmin):
-    list_filter = ("email","first_name", "last_name", "last_modified")
-    list_display = ("email","first_name", 'last_name','last_modified','PhoneNumber','is_active','id'
+    list_filter = ("email","full_name", "phone_number", "last_modified")
+    list_display = ("email","full_name", 'phone_number','last_modified','goal','is_active','last_modified'
                   )
     search_fields = ['email']
-    formfield_overrides = {
-        models.ManyToManyField : {'widget' : CheckboxSelectMultiple},
-    }
+
 
 
 

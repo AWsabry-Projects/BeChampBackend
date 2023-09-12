@@ -15,8 +15,8 @@ class ComponentsAdmin(admin.ModelAdmin):
     # list_display = ("name",)
 
 class MealAdmin(admin.ModelAdmin):
-    list_filter = ("meal_type",)
-    list_display = ("title","meal_type",)
+    list_filter = ("title","meal_type")
+    list_display = ("title","meal_type","created")
 
     formfield_overrides = {
         models.ManyToManyField : {'widget' : CheckboxSelectMultiple},

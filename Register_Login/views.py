@@ -36,24 +36,24 @@ class get_csrf_token_api(APIView):
         return JsonResponse({"token": token}, safe=False)
     
 
-
 class create_users_API(APIView):
     def post(self,request,):
         serializer = UserSerializer(data= request.data,partial=True)
         if serializer.is_valid():
             user = Profile.objects.create_user(
                     email=request.data['email'],
-                    first_name=request.data['first_name'],
-                    last_name=request.data['last_name'],
+                    full_name=request.data['full_name'],
+                    phone_number=request.data['phone_number'],
                     password=request.data['password'],
-                    city=serializer.validated_data['city'],
-                    PhoneNumber=request.data['PhoneNumber'],
+                    age= request.data['age'],
+                    weight=request.data['weight'],
+                    height=request.data['height'],
+                    gender=request.data['gender'],
+                    goal=request.data['goal'],
                     is_active = True,
-                    # Location = Location.objects.get(id = request.data['Location'])
                 )
             if user:
-                # Cart.objects.create(user=user,)
-                return Response("User & Cart are Created Successfully", status = status.HTTP_200_OK)
+                return Response("User Created Successfully", status = status.HTTP_200_OK)
             else:
                 return Response("Error Creating User", status = status.HTTP_403_FORBIDDEN)
         else:
@@ -104,20 +104,7 @@ class get_user_by_email(APIView):
         all = Profile.objects.filter(is_active = True,email=email)
         serializer = UserSerializer(all,many = True)
         return JsonResponse({"Names": serializer.data}, safe=True,status = status.HTTP_200_OK)
-    
-    def post(self,request,email,*args, **kwargs):
-        all = Profile.objects.filter(is_active = True,email=email)
-        exist = Profile.objects.filter(is_active = True,email=email).exists()
-        serializer = UserSerializer(all,many = True)
-        return JsonResponse({"Names": serializer.data, "exist":exist}, safe=True,status = status.HTTP_403_FORBIDDEN)
-    
-    # def put(self,request,email):
-    #     LocationSerializer = LocationUpdateSerializer(data= request.data)
 
-    #     if LocationSerializer.is_valid():
-    #         Profile.objects.filter(is_active = True,email = email).update(Location = request.data['Location'])
-    #         return Response("Updated", status = status.HTTP_200_OK)
-    #     else:
-    #         return Response("Not Valid", status = status.HTTP_403_FORBIDDEN)
+    
 
 

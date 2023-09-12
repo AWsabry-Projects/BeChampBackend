@@ -35,12 +35,22 @@ class Meal(models.Model):
     meal_type = models.CharField(max_length=50, choices=meal_type, blank=True, null=True)    
     components = models.ManyToManyField(Component)
     created = models.DateTimeField(auto_now=True)
+    finished = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        # Build the title with the number of grams and name of components
+        component_titles = [str(component.number_in_grams) + 'g ' + component.name for component in self.components.all()]
+        self.title = ', '.join(component_titles)
+        super(Meal, self).save(*args, **kwargs)
+
 
     def __str__(self):
-        components_string = ""
-        for component in self.components.all():
-            components_string += component.__str__() + ", "
-        return components_string[:-2]
+            return self.title
+    # def __str__(self):
+    #     components_string = ""
+    #     for component in self.components.all():
+    #         components_string += component.__str__() + ", "
+    #     return components_string[:-2]
 
     
     class Meta:
@@ -58,6 +68,12 @@ class Day(models.Model):
     meal_6 = models.ForeignKey(to= Meal, on_delete=models.CASCADE, related_name='meal_6',blank=True,null=True)
     meal_7 = models.ForeignKey(to= Meal, on_delete=models.CASCADE, related_name='meal_7',blank=True,null=True)
     created = models.DateTimeField(auto_now=True)
+    Done = models.BooleanField(default=False)
+    # def save(self, *args, **kwargs):
+    #     if self.meal_5 or self.meal_6 or self.meal_7 == None:
+    #     super().save(*args, **kwargs)
+
+
 
     def __str__(self):
         return str(self.user.email)

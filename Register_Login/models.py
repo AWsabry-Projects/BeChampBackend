@@ -57,31 +57,25 @@ class UserManager(BaseUserManager):
 
 class Profile(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(verbose_name='email address', unique=True)
-    first_name = models.CharField(max_length=50, null=True)
-    last_name = models.CharField(max_length=50, null=True)
+    full_name = models.CharField(max_length=50,)
+    phone_number =  models.CharField(max_length=20, unique=True, )
+    age =  models.IntegerField(blank=True,null=True)
+    weight =  models.FloatField(blank=True,null=True)
+    height =  models.FloatField(blank=True,null=True)
+    gender = models.CharField(max_length=30,blank=True,null=True)
+    goal = models.CharField(max_length=30,blank=True,null=True)
     is_active = models.BooleanField(default=False)
+    subscription = models.BooleanField(default=False)
+    subscription_deadline = models.DateTimeField(blank=True,null=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    is_delivery = models.BooleanField(default=False)
-    nu_id = models.CharField(max_length=60, null=True,blank = True)
-    city = models.CharField(max_length=60, null=True,blank = True)
-    PhoneNumber =  models.CharField(max_length=20, null=True)
     last_modified = models.DateTimeField(auto_now=True)
-    is_operation = models.BooleanField(default=False)
-    Wallet = models.FloatField(default= 0, blank= True,null = True)
 
     USERNAME_FIELD = 'email'
     objects = UserManager()
 
     def __str__(self):
         return self.email
-
-
-class Newsletter(models.Model):
-    email = models.EmailField(max_length=500, blank=True)
-    def __str__(self):
-        return self.email
-
 
 
 
