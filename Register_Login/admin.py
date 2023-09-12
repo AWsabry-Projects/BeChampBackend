@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ("email","full_name", "phone_number", "last_modified")
     list_display = ("email","full_name", 'phone_number','last_modified','goal','is_active','last_modified'
                   )
-    search_fields = ['email']
+    search_fields = ['email','full_name',]
 
 
 

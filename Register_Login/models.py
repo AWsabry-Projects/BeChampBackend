@@ -77,7 +77,7 @@ class Profile(AbstractBaseUser,PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.full_name
 
 
 
