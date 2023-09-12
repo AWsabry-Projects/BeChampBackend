@@ -16,6 +16,8 @@ urlpatterns = [
     path('login_view/', view= views.LoginView, name='login_view'),
     path('get_user_by_email/<str:email>', view= views.get_user_by_email.as_view(), name='get_user_by_email'),
     path('get_active_users/', view= views.get_active_users.as_view(), name='get_active_users'),
+    path('update_user_subscription/<str:email>', view= views.update_user_subscription.as_view(), name='update_user_subscription'),
+
 
     # This endpoints generates the token that should be added as a Bearer token, and this endpoint require the email and the password of the user to have the token for this user 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

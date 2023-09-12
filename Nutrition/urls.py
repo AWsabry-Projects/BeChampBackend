@@ -1,8 +1,8 @@
 from django.urls import path,re_path
 from django.contrib.auth import views as auth_views
-from customization import views
+from Nutrition import views
 
-app_name = 'customization'
+app_name = 'Nutrition'
 
 urlpatterns = [
     path('connection',view = views.connection, name = "connection"),

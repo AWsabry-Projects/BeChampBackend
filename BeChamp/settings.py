@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'Register_Login',
-    'customization',
+    'Nutrition',
+    'workout',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

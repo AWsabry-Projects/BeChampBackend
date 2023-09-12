@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from customization.models import Component,Meal,Day
+from Nutrition.models import Component,Meal,Day
 from Register_Login.serializers import UserSerializer
 
 class ComponentSerializer(serializers.ModelSerializer):

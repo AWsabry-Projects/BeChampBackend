@@ -65,6 +65,15 @@ class get_active_users(APIView):
         all = Profile.objects.filter(is_active = True)
         serializer = UserSerializer(all,many = True)
         return JsonResponse({"Names": serializer.data}, safe=False)
+    
+class update_user_subscription(APIView):
+    def put(self,request,email):
+        if request.data:
+            Profile.objects.filter(is_active = True,email=email).update(subscription=True,subscription_deadline = request.data['subscription_deadline'] )
+            return JsonResponse({"Message": "Subscription updated", "status" :status.HTTP_200_OK}, safe=False)
+        else:
+             return JsonResponse({"Message": "Subscription Not valid", "status" :status.HTTP_404_NOT_FOUND}, safe=False)
+
 
 
 # Login Users
