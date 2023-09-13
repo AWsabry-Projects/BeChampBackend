@@ -1,0 +1,39 @@
+from rest_framework import serializers
+from workout.models import category,workout,workout_day,number_of_sets, workoutPlanning
+from Register_Login.serializers import UserSerializer
+
+
+class workoutPlanningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = workoutPlanning
+        fields = '__all__'
+
+
+class numberOfSets(serializers.ModelSerializer):
+    class Meta:
+        model = number_of_sets
+        fields = '__all__'
+
+
+class categorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = category
+        fields = '__all__'
+
+class workoutSerializer(serializers.ModelSerializer):
+    category_type = serializers.CharField(source='category_type.title',allow_null = True)
+    class Meta:
+        model = workout
+        fields = '__all__'
+
+
+
+
+class workoutDaySerializer(serializers.ModelSerializer):
+    day = workoutPlanningSerializer(allow_null = True)
+    workout = workoutSerializer(allow_null = True)
+    category_type = serializers.CharField(source='day.category_type.title',allow_null = True)
+
+    class Meta:
+        model = workout_day
+        fields = '__all__'

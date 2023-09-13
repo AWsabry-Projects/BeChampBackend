@@ -6,16 +6,22 @@ from Register_Login.models import Profile
 # Create your models here.
 
 choices = (
-    ('Day 1','Day 1'),
-    ('Day 2','Day 2'),
-    ('Day 3','Day 3'),
-    ('Day 4','Day 4'),
-    ('Day 5','Day 5'),
-    ('Day 6','Day 6'),
-    ('Day 7','Day 7'),
-
+    ('1','1'),
+    ('2','2'),
+    ('3','3'),
+    ('4','4'),
+    ('5','5'),
+    ('6','6'),
+    ('7','7'),
 )
 
+week_choices = (
+    ('week_1','week_1'),
+    ('week_2','week_2'),
+    ('week_3','week_3'),
+    ('week_4','week_4'),
+
+)
 
 class category(models.Model):
     title = models.CharField(blank=True,null= True, max_length= 100)
@@ -50,29 +56,28 @@ class workout(models.Model):
 
 
 
-class workout_week(models.Model):
-    user = models.ForeignKey(to= Profile, on_delete=models.CASCADE, related_name='client')
+class workoutPlanning(models.Model):
+    user = models.ForeignKey(to= Profile, on_delete=models.CASCADE, related_name='userClient')
+    week_number = models.CharField(choices=week_choices, blank=True,null=True,max_length=50)
+    day_number = models.CharField(choices=choices, blank=True,null=True,max_length=50)
+    category_type = models.ForeignKey(to= category, on_delete=models.CASCADE, related_name= 'catType')
     created = models.DateTimeField(auto_now=True)
-    finished = models.BooleanField(default=False)
-    expired = models.BooleanField(default=False)
-    week_number = models.PositiveIntegerField(blank=True,null=True)
+
 
     def __str__(self):
-        return str(self.user) + "   " + "week" + str(self.week_number)
+        return str(self.user) + " " + "Day" + " " + str(self.day_number)+ " " + str(self.week_number) + " " + str(self.category_type.title) 
     class Meta:
-        verbose_name_plural = "Weeks"
+        verbose_name_plural = "workoutPlanning"
 
 
 class workout_day(models.Model):
-    day_number = models.CharField(choices=choices, blank=True,null=True,max_length=50)
+    day = models.ForeignKey(to= workoutPlanning, on_delete=models.CASCADE, related_name= 'daily')
     created = models.DateTimeField(auto_now=True)
     workout = models.ForeignKey(to= workout, on_delete=models.CASCADE, related_name= 'work')
-    category_type = models.ForeignKey(to= category, on_delete=models.CASCADE, related_name= 'cat')
     finished = models.BooleanField(default=False)
-    week = models.ForeignKey(to= workout_week, on_delete=models.CASCADE, related_name='week')
 
     def __str__(self):
-        return str(self.day_number)
+        return str(self.workout.title)
     class Meta:
         verbose_name_plural = "Workout Days"
 
@@ -84,3 +89,5 @@ class number_of_sets(models.Model):
 
     def __str__(self):
         return f"Sets: {self.number_of_sets}, Reps: {self.number_of_reps}"
+    
+
