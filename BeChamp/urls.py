@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include("Register_Login.urls"),name='Register_Login'),
     path('', include("Nutrition.urls"),name='Nutrition'),
     path('', include("workout.urls"),name='workout'),
+    path('_nested_admin/', include('nested_admin.urls')), # Here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

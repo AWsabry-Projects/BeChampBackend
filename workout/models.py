@@ -56,25 +56,46 @@ class workout(models.Model):
 
 
 
+
+
+
+
 class workoutPlanning(models.Model):
-    user = models.ForeignKey(to= Profile, on_delete=models.CASCADE, related_name='userClient')
-    week_number = models.CharField(choices=week_choices, blank=True,null=True,max_length=50)
-    day_number = models.CharField(choices=choices, blank=True,null=True,max_length=50)
-    category_type = models.ForeignKey(to= category, on_delete=models.CASCADE, related_name= 'catType')
+    user = models.ForeignKey(to= Profile, on_delete=models.CASCADE, related_name='cl')
     created = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):
-        return str(self.user) + " " + "Day" + " " + str(self.day_number)+ " " + str(self.week_number) + " " + str(self.category_type.title) 
+        return str(self.user) 
     class Meta:
-        verbose_name_plural = "workoutPlanning"
+        verbose_name_plural = "Workout Plans"
+
+class Week(models.Model):
+    workoutplan = models.ForeignKey(to= workoutPlanning, on_delete=models.CASCADE, related_name='plans')
+    
+    def __str__(self):
+        return f"Days"
+    
+    class Meta:
+        verbose_name_plural = "Weeks"
+    
 
 
-class workout_day(models.Model):
-    day = models.ForeignKey(to= workoutPlanning, on_delete=models.CASCADE, related_name= 'daily')
+class day(models.Model):
     created = models.DateTimeField(auto_now=True)
-    workout = models.ForeignKey(to= workout, on_delete=models.CASCADE, related_name= 'work')
-    finished = models.BooleanField(default=False)
+    week = models.ForeignKey(to= Week, on_delete=models.CASCADE, related_name='weeks')
+
+    def __str__(self):
+        return str(self.workout.title)
+    class Meta:
+        verbose_name_plural = "Workout Days"
+    
+class user_workout(models.Model):
+    day = models.ForeignKey(to= day, on_delete=models.CASCADE, related_name='days')
+    workout = models.ForeignKey(to= workout, on_delete=models.CASCADE, related_name='workouts')
+    sets = models.PositiveIntegerField()
+    reps = models.PositiveBigIntegerField()
+    created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.workout.title)
@@ -82,12 +103,14 @@ class workout_day(models.Model):
         verbose_name_plural = "Workout Days"
 
 
-class number_of_sets(models.Model):
-    workout_day = models.ForeignKey(to=workout_day, on_delete=models.CASCADE, related_name='sets')
-    number_of_sets = models.PositiveIntegerField()
-    number_of_reps = models.PositiveIntegerField()
 
-    def __str__(self):
-        return f"Sets: {self.number_of_sets}, Reps: {self.number_of_reps}"
-    
+class TopLevel(models.Model):
+    name = models.CharField(max_length=200)
 
+class LevelOne(models.Model):
+    name = models.CharField(max_length=200)
+    level = models.ForeignKey(to= TopLevel,on_delete=models.CASCADE)
+
+class LevelTwo(models.Model):
+    name = models.CharField(max_length=200)
+    level = models.ForeignKey(to= LevelOne,on_delete=models.CASCADE)

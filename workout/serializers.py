@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from workout.models import category,workout,workout_day,number_of_sets, workoutPlanning
+from workout.models import category,workout,day,Week, workoutPlanning
 from Register_Login.serializers import UserSerializer
 
 
@@ -11,7 +11,7 @@ class workoutPlanningSerializer(serializers.ModelSerializer):
 
 class numberOfSets(serializers.ModelSerializer):
     class Meta:
-        model = number_of_sets
+        model = Week
         fields = '__all__'
 
 
@@ -35,5 +35,5 @@ class workoutDaySerializer(serializers.ModelSerializer):
     category_type = serializers.CharField(source='day.category_type.title',allow_null = True)
 
     class Meta:
-        model = workout_day
+        model = day
         fields = '__all__'
