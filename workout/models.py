@@ -62,6 +62,7 @@ class workout(models.Model):
 
 class workoutPlanning(models.Model):
     user = models.ForeignKey(to= Profile, on_delete=models.CASCADE, related_name='cl')
+    repeat_week_one = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True)
 
 
@@ -72,6 +73,7 @@ class workoutPlanning(models.Model):
 
 class Week(models.Model):
     workoutplan = models.ForeignKey(to= workoutPlanning, on_delete=models.CASCADE, related_name='plans')
+    done = models.BooleanField(default=False)
     
     def __str__(self):
         return f"Days"
@@ -82,8 +84,11 @@ class Week(models.Model):
 
 
 class day(models.Model):
+    category = models.ForeignKey(to= category, on_delete=models.CASCADE, related_name='cat')
     created = models.DateTimeField(auto_now=True)
     week = models.ForeignKey(to= Week, on_delete=models.CASCADE, related_name='weeks')
+    done = models.BooleanField(default=False)
+    off = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.workout.title)
@@ -93,8 +98,6 @@ class day(models.Model):
 class user_workout(models.Model):
     day = models.ForeignKey(to= day, on_delete=models.CASCADE, related_name='days')
     workout = models.ForeignKey(to= workout, on_delete=models.CASCADE, related_name='workouts')
-    sets = models.PositiveIntegerField()
-    reps = models.PositiveBigIntegerField()
     created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -102,15 +105,12 @@ class user_workout(models.Model):
     class Meta:
         verbose_name_plural = "Workout Days"
 
+class workout_reps(models.Model):
+    user_workout = models.ForeignKey(to= user_workout, on_delete=models.CASCADE, related_name='workouts')
+    sets = models.PositiveIntegerField()
+    reps = models.PositiveBigIntegerField()
 
-
-class TopLevel(models.Model):
-    name = models.CharField(max_length=200)
-
-class LevelOne(models.Model):
-    name = models.CharField(max_length=200)
-    level = models.ForeignKey(to= TopLevel,on_delete=models.CASCADE)
-
-class LevelTwo(models.Model):
-    name = models.CharField(max_length=200)
-    level = models.ForeignKey(to= LevelOne,on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.sets)
+    class Meta:
+        verbose_name_plural = "Workout Days"

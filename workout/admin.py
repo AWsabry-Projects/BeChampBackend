@@ -1,10 +1,10 @@
 from django.contrib import admin
 
 from Register_Login.models import Profile
-from .models import Week, user_workout, workout,category, workoutPlanning,day,TopLevel,LevelOne,LevelTwo
+from .models import Week, user_workout, workout,category, workout_reps, workoutPlanning,day
 from django.db import models
 from nested_inline.admin import NestedStackedInline, NestedModelAdmin
-
+import nested_admin
 # Register your models here.
 
 class workout_Admin(admin.ModelAdmin):    
@@ -21,29 +21,39 @@ class categoryAdmin(admin.ModelAdmin):
     list_display = ("title","arabic_title","created")
     search_fields = ['title','arabic_title']
 
+class user_workout_reps_Admin(nested_admin.NestedStackedInline):    
+    model = workout_reps
+    extra = 1  # Number of empty forms to display
+    max_num = 10
 
-class user_workout_Admin(NestedStackedInline):    
+
+
+class user_workout_Admin(nested_admin.NestedStackedInline):    
     model = user_workout
     extra = 1  # Number of empty forms to display 
+    inlines = [user_workout_reps_Admin]
 
 
-class day_Admin(NestedStackedInline):    
+class day_Admin(nested_admin.NestedStackedInline): 
     model = day
-    extra = 1  # Number of empty forms to display
+    extra = 0  # Number of empty forms to display
     max_num = 7
     inlines = [user_workout_Admin]
+    exclude = ['done']
+    
  
 
-class week_inline(NestedStackedInline):  # or admin.StackedInline for a different display
+class week_inline(nested_admin.NestedStackedInline):  # or admin.StackedInline for a different display
     model = Week
-    extra = 1  # Number of empty forms to display
+    extra = 4  # Number of empty forms to display
     max_num = 4
     inlines = [day_Admin]
+    exclude = ['done']
 
 
     
 
-class workoutPlans(NestedModelAdmin):    
+class workoutPlans(nested_admin.NestedModelAdmin):    
     list_filter = ("user__full_name",)
     search_fields = ['user__full_name',]
     inlines = [week_inline,]
@@ -51,26 +61,7 @@ class workoutPlans(NestedModelAdmin):
 
 
 
-class LevelTwoInline(NestedStackedInline):
-    model = LevelTwo
-    extra = 1
-    fk_name = 'level'
 
-
-
-class LevelOneInline(NestedStackedInline):
-    model = LevelOne
-    extra = 1
-    fk_name = 'level'
-    inlines = [LevelTwoInline]
-
-
-class TopLevelAdmin(NestedModelAdmin):
-    model = TopLevel
-    inlines = [LevelOneInline]
-
-
-admin.site.register(TopLevel, TopLevelAdmin)
 admin.site.register(workout,workout_Admin,)
 # admin.site.register(day,day_Admin)
 admin.site.register(category,categoryAdmin)

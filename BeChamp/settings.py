@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "nested_inline",
+    'nested_admin',
     'Register_Login',
     'Nutrition',
     'workout',
