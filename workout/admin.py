@@ -3,7 +3,6 @@ from django.contrib import admin
 from Register_Login.models import Profile
 from .models import Week, user_workout, workout,category, workout_reps, workoutPlanning,day
 from django.db import models
-from nested_inline.admin import NestedStackedInline, NestedModelAdmin
 import nested_admin
 # Register your models here.
 
@@ -36,7 +35,7 @@ class user_workout_Admin(nested_admin.NestedStackedInline):
 
 class day_Admin(nested_admin.NestedStackedInline): 
     model = day
-    extra = 0  # Number of empty forms to display
+    extra = 7  # Number of empty forms to display
     max_num = 7
     inlines = [user_workout_Admin]
     exclude = ['done']

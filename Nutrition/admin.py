@@ -1,28 +1,35 @@
 from django.contrib import admin
-from .models import Day,Component,Meal
+from .models import Nutrition_day,Meal,pending_upgrades
 from django.db import models
 from django.forms import CheckboxSelectMultiple
+import nested_admin
+
 # Register your models here.
 
 
-class DaysAdmin(admin.ModelAdmin):
-    list_filter = ("user",)
-    list_display = ("user","day_number","created","meal_1","meal_2","meal_3","meal_4","meal_5","meal_6","meal_7")
 
 
-class ComponentsAdmin(admin.ModelAdmin):
-    list_filter = ("name",)
-    # list_display = ("name",)
 
-class MealAdmin(admin.ModelAdmin):
-    list_filter = ("title","meal_type")
-    list_display = ("title","meal_type","created","id")
+class meal_Admin(admin.TabularInline): 
+    model = Meal
+    extra = 1  # Number of empty forms to display
+    exclude = ['done','finished']
+    
 
     formfield_overrides = {
         models.ManyToManyField : {'widget' : CheckboxSelectMultiple},
     }
 
 
-admin.site.register(Day, DaysAdmin)
-admin.site.register(Component, ComponentsAdmin)
-admin.site.register(Meal, MealAdmin)
+class DaysAdmin(admin.ModelAdmin):
+    list_filter = ("user",)
+    list_display = ("user_name","created",)
+    inlines = [meal_Admin]
+    exclude = ['done']
+
+    def user_name(self, obj):
+        return  str(obj.user.full_name) + " " + "day" + str(obj.day_number)
+
+admin.site.register(Nutrition_day, DaysAdmin)
+admin.site.register(pending_upgrades,)
+# admin.site.register(Meal, MealAdmin)

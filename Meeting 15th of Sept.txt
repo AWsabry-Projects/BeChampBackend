@@ -1,3 +1,10 @@
 - Add Rest time in the number of sets table
 - Retrive the total number of exercises for each exercise
 - Number of weeks instead of Week number in workout plan
+
+
+
+-- Activity screen
+-- Payment Method
+-- Uploading Screen 
+-- Days of retrive in the meals
