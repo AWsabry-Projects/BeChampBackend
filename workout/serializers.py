@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from workout.models import category,workout,day,Week, workoutPlanning
+from workout.models import category,Exercise,day,Week, ClientPlan
 from Register_Login.serializers import UserSerializer
 
 
 class workoutPlanningSerializer(serializers.ModelSerializer):
     class Meta:
-        model = workoutPlanning
+        model = ClientPlan
         fields = '__all__'
 
 
@@ -23,7 +23,7 @@ class categorySerializer(serializers.ModelSerializer):
 class workoutSerializer(serializers.ModelSerializer):
     category_type = serializers.CharField(source='category_type.title',allow_null = True)
     class Meta:
-        model = workout
+        model = Exercise
         fields = '__all__'
 
 

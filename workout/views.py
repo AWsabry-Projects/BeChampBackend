@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import JsonResponse
 from rest_framework import status
+from django.http import JsonResponse
 from Register_Login.models import Profile
-from workout.models import day,category,workout
-from workout.serializers import workoutSerializer,categorySerializer,workoutDaySerializer,numberOfSets
+from workout.models import day
+from workout.serializers import workoutDaySerializer
 
 # Create your views here.
 
