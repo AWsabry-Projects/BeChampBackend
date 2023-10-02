@@ -93,15 +93,12 @@ class day(models.Model):
 
     def save(self, *args, **kwargs):
         self.user = self.week.client_plan.user
-        check_exist = day.objects.filter(user=self.user, week__week_number=self.week).exists()
-        print(self.user)
-        print(self.week)
-        print(check_exist)
-        if check_exist:
-            response = HttpResponse("The user has the same week planned before.", content_type="text/plain")
-            return response
-        else:
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
+        # check_exist = day.objects.filter(user=self.user, week__week_number=self.week).exists()
+        # if check_exist:
+        #     response = HttpResponse("The user has the same week planned before.", content_type="text/plain")
+        #     return response
+        # else:
 
     def __str__(self):
         return str(self.user) + " " + "Day" + " " + str(self.day_number)

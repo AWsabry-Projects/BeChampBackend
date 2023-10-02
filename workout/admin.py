@@ -29,7 +29,7 @@ class day_inline_Admin(nested_admin.NestedStackedInline):
 
 class week_inline(nested_admin.NestedStackedInline):  # or admin.StackedInline for a different display
     model = Week
-    extra = 0 # Number of empty forms to display
+    extra = 4 # Number of empty forms to display
     max_num = 4
     inlines = [day_inline_Admin]
     exclude = ['done']

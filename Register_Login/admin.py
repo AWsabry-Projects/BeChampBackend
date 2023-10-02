@@ -2,6 +2,8 @@ from Register_Login.models import Profile
 from django.contrib import admin
 from django.forms import CheckboxSelectMultiple
 from django.db import models
+from  django.contrib.auth.models  import  Group
+# from django.contrib.auth.models import Group
 
 # Register your models here.
 
@@ -16,6 +18,9 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Profile, UserAdmin)
+# admin.site.unregister(Group)
+# admin.site.unregister(Group)  # new
+
 
 
 

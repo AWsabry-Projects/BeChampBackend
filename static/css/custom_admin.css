@@ -1,0 +1,41 @@
+/* Change the background color of the header */
+#header {
+    background-color: #007bff;
+}
+
+/* Change the color of the admin site title */
+#site-name a {
+    color: #fff;
+}
+
+/* Change the color of the top navigation links */
+#topnav a {
+    color: #fff;
+}
+
+/* Change the background color of the sidebar */
+#sidebar {
+    background-color: #f8f9fa;
+}
+
+/* Change the color of sidebar links */
+#sidebar a {
+    color: #333;
+}
+
+/* Style the login form */
+#content-main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Change the color of the login button */
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+/* Customize other styles as needed */
